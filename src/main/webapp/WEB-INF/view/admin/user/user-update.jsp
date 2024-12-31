@@ -19,16 +19,16 @@
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6 col-12 mx-auto">
-                            <h3>Create a user</h3>
+                            <h3>Update a user</h3>
                             <hr />
-                            <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
-                                <div class="mb-3">
-                                    <label class="form-label">Email:</label>
-                                    <form:input type="email" class="form-control" path="email" />
+                            <form:form method="post" action="/admin/user/user-update" modelAttribute="updateUser">
+                                <div class="mb-3" style="display: none;">
+                                    <label class="form-label">Id:</label>
+                                    <form:input type="id" class="form-control" path="id" />
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Password:</label>
-                                    <form:input type="password" class="form-control" path="password" />
+                                    <label class="form-label">Email:</label>
+                                    <form:input type="email" class="form-control" path="email" disabled="true" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Phone number:</label>
@@ -42,13 +42,12 @@
                                     <label class="form-label">Address:</label>
                                     <form:input type="text" class="form-control" path="address" />
                                 </div>
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                                 <a href="/admin/user" class="btn btn-success ">Back</a>
 
                             </form:form>
                         </div>
                     </div>
-
                 </div>
             </body>
 
