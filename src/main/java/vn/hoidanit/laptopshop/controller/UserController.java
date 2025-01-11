@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -22,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String getHomePage(Model model) {
         List<User> arrUsers = this.userService.getAllUserByEmail("phamvutien01@gmail.com");
         model.addAttribute("users", arrUsers);
@@ -46,9 +45,7 @@ public class UserController {
     // @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     @PostMapping("/admin/user/create")
     public String createNewUser(@ModelAttribute("newUser") User user) {
-        if (user != null) {
-            this.userService.handleSaveUser(user);
-        }
+        this.userService.handleSaveUser(user);
         return "redirect:/admin/user";
     }
 
@@ -80,9 +77,9 @@ public class UserController {
 
     @GetMapping("/admin/user/delete-user/{id}")
     public String getDeleteUserPage(Model model, @PathVariable long id) {
-        User user = new User();
-        model.addAttribute("id", id);
-        model.addAttribute("deleteUser", user);
+        User currentUser = new User();
+        currentUser.setId(id);
+        model.addAttribute("deleteUser", currentUser);
         return "admin/user/delete-user";
     }
 
