@@ -39,8 +39,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
+                                                        <th>Avatar</th>
                                                         <th>Email</th>
                                                         <th>Full Name</th>
+                                                        <th>Role</th>
                                                         <th>Phone number</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -49,8 +51,13 @@
                                                     <c:forEach var="user" items="${users}">
                                                         <tr>
                                                             <th>${user.id}</th>
+                                                            <td>
+                                                                <img src="/images/avatars/${user.avatar}" alt="Avatar"
+                                                                    style="width: 50px; height: 50px; object-fit: cover;" />
+                                                            </td>
                                                             <td>${user.email}</td>
                                                             <td>${user.fullName}</td>
+                                                            <td>${user.role.name}</td>
                                                             <td>${user.phone}</td>
                                                             <td>
                                                                 <a href="/admin/user/${user.id}"
