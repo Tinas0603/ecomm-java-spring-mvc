@@ -39,7 +39,6 @@
 
                                             <div class="card" style="width: 60%">
                                                 <div class="card-header">
-                                                    User information
                                                 </div>
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">ID: ${user.id}</li>

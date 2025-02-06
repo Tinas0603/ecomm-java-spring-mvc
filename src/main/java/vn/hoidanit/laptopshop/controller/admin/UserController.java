@@ -33,12 +33,13 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/")
-    public String getHomePage(Model model) {
-        List<User> arrUsers = this.userService.getAllUserByEmail("phamvutien01@gmail.com");
-        model.addAttribute("users", arrUsers);
-        return "admin/user/show";
-    }
+    // @GetMapping("/admin")
+    // public String getHomePage(Model model) {
+    // List<User> arrUsers =
+    // this.userService.getAllUserByEmail("phamvutien01@gmail.com");
+    // model.addAttribute("users", arrUsers);
+    // return "admin/user/show";
+    // }
 
     @GetMapping("/admin/user")
     public String getUserPage(Model model) {
