@@ -37,14 +37,6 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    // @GetMapping("/admin")
-    // public String getHomePage(Model model) {
-    // List<User> arrUsers =
-    // this.userService.getAllUserByEmail("phamvutien01@gmail.com");
-    // model.addAttribute("users", arrUsers);
-    // return "admin/user/show";
-    // }
-
     @GetMapping("/admin/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
@@ -63,11 +55,15 @@ public class UserController {
     @PostMapping("/admin/user/create")
     public String createNewUser(
             @ModelAttribute("newUser") @Valid User user,
-            BindingResult bindingResult,
+            BindingResult newUserBindingResult,
             @RequestParam("newFile") MultipartFile file) {
-        List<FieldError> errors = bindingResult.getFieldErrors();
+        // validate
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            System.out.println(error.getObjectName() + " - " + error.getDefaultMessage());
+            System.out.println(error.getField() + " - " + error.getDefaultMessage());
+        }
+        if (newUserBindingResult.hasErrors()) {
+            return "admin/user/create";
         }
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatars");
