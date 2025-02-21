@@ -23,23 +23,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotNull
+    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    @Size(min = 6, message = "Mật khẩu phải có tối thiểu 6 ký tự")
     @NotNull
+    @Size(min = 6, message = "Mật khẩu phải có tối thiểu 6 ký tự")
     private String password;
 
-    @Size(min = 3, message = "Tên phải có tối thiểu 3 ký tự")
     @NotNull
+    @Size(min = 3, message = "Tên phải có tối thiểu 3 ký tự")
     private String fullName;
 
     @NotEmpty(message = "Địa chỉ không được để trống")
     private String address;
 
     @NotNull
-    @Pattern(regexp = "^\\d{10,11}$", message = "Số điện thoại chỉ được chứa số và có độ dài 10-11 chữ số")
+    @Pattern(regexp = "0\\d{9,10}", message = "Số điện thoại phải bắt đầu bằng 0 và có 10-11 chữ số")
     private String phone;
 
     private String avatar;

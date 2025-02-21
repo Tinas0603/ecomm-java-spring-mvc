@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,10 +57,10 @@ public class UserController {
             BindingResult newUserBindingResult,
             @RequestParam("newFile") MultipartFile file) {
         // validate
-        List<FieldError> errors = newUserBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
+        // List<FieldError> errors = newUserBindingResult.getFieldErrors();
+        // for (FieldError error : errors) {
+        // System.out.println(error.getField() + " - " + error.getDefaultMessage());
+        // }
         if (newUserBindingResult.hasErrors()) {
             return "admin/user/create";
         }
@@ -91,19 +90,17 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUpdateUser(
-            Model model,
             @ModelAttribute("updateUser") User user,
-            @RequestParam(value = "updateFile", required = false) MultipartFile file) {
+            @RequestParam(value = "updateFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(user.getId());
         if (currentUser != null) {
-            String avatar = currentUser.getAvatar();
             if (file != null && !file.isEmpty()) {
-                avatar = this.uploadService.handleSaveUploadFile(file, "avatars");
+                String avatar = this.uploadService.handleSaveUploadFile(file, "avatars");
+                currentUser.setAvatar(avatar);
             }
             currentUser.setAddress(user.getAddress());
             currentUser.setFullName(user.getFullName());
             currentUser.setPhone(user.getPhone());
-            currentUser.setAvatar(avatar);
             currentUser.setRole(this.roleService.getRoleByName(user.getRole().getName()));
             this.userService.handleSaveUser(currentUser);
         }

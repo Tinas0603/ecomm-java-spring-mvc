@@ -17,6 +17,13 @@
                 <script>
                     $(document).ready(() => {
                         const avatarFile = $("#avatarFile");
+                        const orgImage = "${updateUser.avatar}";
+                        if (orgImage) {
+                            const urlImage = "/images/avatars/" + orgImage;
+                            $("#avatarPreview").attr("src", urlImage);
+                            $("#avatarPreview").css({ "display": "block" });
+                        }
+
                         avatarFile.change(function (e) {
                             const imgURL = URL.createObjectURL(e.target.files[0]);
                             $("#avatarPreview").attr("src", imgURL);
@@ -24,6 +31,7 @@
                         });
                     });
                 </script>
+
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
 
@@ -53,7 +61,7 @@
                                                 <div class="mb-3 col-12">
                                                     <label class="form-label">Email:</label>
                                                     <form:input type="email" class="form-control" path="email"
-                                                        disabled="true" />
+                                                        readonly="true" />
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Phone number:</label>
