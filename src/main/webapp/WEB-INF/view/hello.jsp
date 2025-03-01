@@ -22,7 +22,7 @@
                 ${eric}
             </h1>
             <h2>
-                ${hoidanit}
+                ${tienpham}
             </h2>
             <button>Submit</button>
 
