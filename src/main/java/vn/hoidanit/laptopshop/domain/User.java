@@ -35,10 +35,8 @@ public class User {
     @Size(min = 3, message = "Tên phải có tối thiểu 3 ký tự")
     private String fullName;
 
-    @NotEmpty(message = "Địa chỉ không được để trống")
     private String address;
 
-    @NotNull
     @Pattern(regexp = "0\\d{9,10}", message = "Số điện thoại phải bắt đầu bằng 0 và có 10-11 chữ số")
     private String phone;
 
