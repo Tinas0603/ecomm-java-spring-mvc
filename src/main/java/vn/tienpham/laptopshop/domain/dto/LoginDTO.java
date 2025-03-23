@@ -1,6 +1,9 @@
 package vn.tienpham.laptopshop.domain.dto;
 
+import jakarta.validation.constraints.Email;
+
 public class LoginDTO {
+    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     private String password;
 
