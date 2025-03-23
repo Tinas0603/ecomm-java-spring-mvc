@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import vn.tienpham.laptopshop.domain.Product;
 import vn.tienpham.laptopshop.domain.User;
-import vn.tienpham.laptopshop.domain.dto.LoginDTO;
 import vn.tienpham.laptopshop.domain.dto.RegisterDTO;
 import vn.tienpham.laptopshop.service.ProductService;
 import vn.tienpham.laptopshop.service.RoleService;
@@ -66,7 +65,6 @@ public class HomePageController {
 
     @GetMapping("/login")
     public String getLoginPage(Model model) {
-        model.addAttribute("loginUser", new LoginDTO());
         return "client/auth/login";
     }
 }
