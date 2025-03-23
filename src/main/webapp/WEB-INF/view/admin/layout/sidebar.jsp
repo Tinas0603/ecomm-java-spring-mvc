@@ -84,7 +84,7 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Hỏi Dân IT
+                    Tiến Phạm
                 </div>
             </nav>
         </div>

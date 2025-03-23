@@ -36,7 +36,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-item">
                             <h4 class="text-light mb-3">Contact</h4>
-                            <p>Author:Hỏi Dân IT</p>
+                            <p>Author:Tiến Phạm</p>
                             <p>Website: <a href="https://tienpham.vn" target="_blank"> tienpham.vn</a></p>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                         <span class="text-light"><a href="https://tienpham.vn" target="_blank"><i
-                                    class="fas fa-copyright text-light me-2"></i>Hỏi Dân IT</a>, All right
+                                    class="fas fa-copyright text-light me-2"></i>Tiến Phạm</a>, All right
                             reserved.</span>
                     </div>
                     <div class="col-md-6 my-auto text-center text-md-end text-white">
