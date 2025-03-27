@@ -67,4 +67,10 @@ public class HomePageController {
     public String getLoginPage(Model model) {
         return "client/auth/login";
     }
+
+    @GetMapping("/access-denied")
+    public String getDeniedPage(Model model) {
+        return "client/auth/denied";
+    }
+
 }
