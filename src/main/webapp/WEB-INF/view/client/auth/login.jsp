@@ -33,8 +33,7 @@
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${param.logout != null}">
-                                                        <div class="my-2" style="color: green;">Logout successful.
-                                                        </div>
+                                                        <div class="my-2" style="color: green;">Logout successful.</div>
                                                     </c:if>
                                                     <div class="form-floating mb-3">
                                                         <input class="form-control" type="email"
@@ -46,17 +45,19 @@
                                                             placeholder="Password" name="password" />
                                                         <label>Password</label>
                                                     </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            name="remember-me" id="rememberMe" />
+                                                        <label class="form-check-label" for="rememberMe">Remember
+                                                            Me</label>
+                                                    </div>
                                                     <div>
                                                         <input type="hidden" name="${_csrf.parameterName}"
                                                             value="${_csrf.token}" />
-
                                                     </div>
-
                                                     <div class="mt-4 mb-0">
                                                         <div class="d-grid">
-                                                            <button class="btn btn-primary btn-block">
-                                                                Login
-                                                            </button>
+                                                            <button class="btn btn-primary btn-block">Login</button>
                                                         </div>
                                                     </div>
                                                 </form>

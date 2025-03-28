@@ -34,8 +34,9 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
-
+        // Map chứa các role và URL tương ứng (key: role, value: URL)
         Map<String, String> roleTargetUrlMap = new HashMap<>();
+
         roleTargetUrlMap.put("ROLE_USER", "/");
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin");
 

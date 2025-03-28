@@ -2,35 +2,34 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
             <!DOCTYPE html>
-            <html lang="en">
+            <html lang="vi">
 
             <head>
-                <meta charset="utf-8" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="" />
-                <meta name="author" content="" />
-                <title>403 - Laptopshop</title>
-                <link href="/css/styles.css" rel="stylesheet" />
-                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>404 - Không Tìm Thấy</title>
+                <link rel="stylesheet" href="/client/css/denied.css">
             </head>
 
             <body>
                 <div class="container">
-                    <div class="row ">
-                        <div class="col-12 mt-5">
-                            <div class="alert alert-danger" role="alert">
-                                Bạn không có quyền truy cập nguồn tài nguyên này
-                            </div>
-                            <a href="/" class="btn btn-success">Trang Chủ</a>
-                        </div>
-                    </div>
+                    <div class="error-code">404</div>
+                    <div class="message">Oops! Trang bạn tìm không tồn tại.</div>
+                    <a href="/" class="back-btn">Quay lại trang chủ</a>
                 </div>
 
-
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                    crossorigin="anonymous"></script>
-                <script src="/js/scripts.js"></script>
+                <!-- Tạo hiệu ứng hạt nổi -->
+                <script>
+                    function createParticle() {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        particle.style.left = Math.random() * 100 + 'vw';
+                        particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+                        document.body.appendChild(particle);
+                        setTimeout(() => particle.remove(), 5000);
+                    }
+                    setInterval(createParticle, 200);
+                </script>
             </body>
 
             </html>
