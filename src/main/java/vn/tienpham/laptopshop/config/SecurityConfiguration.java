@@ -21,9 +21,11 @@ import vn.tienpham.laptopshop.service.UserService;
 public class SecurityConfiguration {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userService;
 
-    SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+    SecurityConfiguration(CustomUserDetailsService customUserDetailsService, UserService userService) {
         this.customUserDetailsService = customUserDetailsService;
+        this.userService = userService;
     }
 
     @Bean
@@ -34,8 +36,8 @@ public class SecurityConfiguration {
     // ghi đè lại phương thức userDetailsService của Spring Security Config bằng
     // chính Class CustomUserDetailsService
     @Bean
-    public UserDetailsService userDetailsService(UserService userService) {
-        return new CustomUserDetailsService(userService);
+    public UserDetailsService userDetailsService() {
+        return customUserDetailsService;
     }
 
     @Bean
@@ -53,7 +55,7 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationSuccessHandler customSuccessHandler() {
-        return new CustomSuccessHandler();
+        return new CustomSuccessHandler(userService);
     }
 
     @Bean

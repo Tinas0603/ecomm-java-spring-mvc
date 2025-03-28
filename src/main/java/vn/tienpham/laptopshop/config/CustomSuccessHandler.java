@@ -16,9 +16,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.tienpham.laptopshop.domain.User;
+import vn.tienpham.laptopshop.service.UserService;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    private final UserService userService;
+
+    public CustomSuccessHandler(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -28,7 +36,15 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         if (response.isCommitted()) {
             return;
         }
-
+        HttpSession session = request.getSession(false);
+        // get email
+        String email = authentication.getName();
+        // query user
+        User user = this.userService.getUserByEmail(email);
+        if (user != null) {
+            session.setAttribute("fullName", user.getFullName());
+            session.setAttribute("avatar", user.getAvatar());
+        }
         redirectStrategy.sendRedirect(request, response, targetUrl);
         clearAuthenticationAttributes(request);
     }
