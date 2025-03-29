@@ -41,7 +41,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         String email = authentication.getName();
         // query user
         User user = this.userService.getUserByEmail(email);
-        if (user != null) {
+        if (user != null && session != null) {
             session.setAttribute("fullName", user.getFullName());
             session.setAttribute("avatar", user.getAvatar());
         }
@@ -64,7 +64,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
             }
         }
 
-        throw new IllegalStateException();
+        return "/access-denied";
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request) {
