@@ -67,4 +67,7 @@ public class CartService {
         }
     }
 
+    public Cart fetchByUser(User user) {
+        return this.cartRepository.findByUser(user);
+    }
 }
