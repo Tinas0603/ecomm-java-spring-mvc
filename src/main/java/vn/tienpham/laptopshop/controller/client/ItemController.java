@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.tienpham.laptopshop.domain.Cart;
 import vn.tienpham.laptopshop.domain.CartDetail;
+import vn.tienpham.laptopshop.domain.Product;
 import vn.tienpham.laptopshop.domain.User;
 import vn.tienpham.laptopshop.service.CartService;
 import vn.tienpham.laptopshop.service.ProductService;
@@ -30,7 +31,8 @@ public class ItemController {
 
     @GetMapping("/product/{id}")
     public String getProductDetailPage(Model model, @PathVariable long id) {
-        model.addAttribute("product", this.productService.getProductById(id));
+        Product pr = this.productService.getProductById(id).get();
+        model.addAttribute("product", pr);
         return "client/product/detail";
     }
 
@@ -65,7 +67,6 @@ public class ItemController {
 
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("cartEmpty", cart == null); // Thêm biến để kiểm tra giỏ hàng trống
         return "client/cart/show";
     }
 }

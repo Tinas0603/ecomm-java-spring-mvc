@@ -57,7 +57,7 @@
                         </div>
 
                         <!-- Kiểm tra nếu giỏ hàng trống -->
-                        <c:if test="${cartEmpty}">
+                        <c:if test="${empty cartDetails}">
                             <div class="alert alert-info text-center">
                                 <h4 class="alert-heading">Giỏ hàng của bạn đang trống!</h4>
                                 <p>Vui lòng thêm sản phẩm vào giỏ hàng để tiếp tục.</p>
@@ -66,7 +66,7 @@
                         </c:if>
 
                         <!-- Hiển thị giỏ hàng nếu không trống -->
-                        <c:if test="${not cartEmpty}">
+                        <c:if test="${not empty cartDetails}">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -111,7 +111,9 @@
                                                         </div>
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
-                                                            value="${cartDetail.quantity}">
+                                                            value="${cartDetail.quantity}"
+                                                            data-cart-detail-id="${cartDetail.id}"
+                                                            data-cart-detail-price="${cartDetail.price}">
                                                         <div class="input-group-btn">
                                                             <button
                                                                 class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -121,7 +123,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <p class="mb-0 mt-4">
+                                                    <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
                                                         <fmt:formatNumber type="number"
                                                             value="${cartDetail.price * cartDetail.quantity}" /> đ
                                                     </p>
@@ -145,7 +147,7 @@
                                             </h1>
                                             <div class="d-flex justify-content-between mb-4">
                                                 <h5 class="mb-0 me-4">Tạm tính:</h5>
-                                                <p class="mb-0">
+                                                <p class="mb-0" data-cart-total-price="${totalPrice}">
                                                     <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                                                 </p>
                                             </div>
@@ -158,7 +160,7 @@
                                         </div>
                                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                             <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                                            <p class="mb-0 pe-4">
+                                            <p class="mb-0 pe-4" data-cart-total-price="${totalPrice}">
                                                 <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                                             </p>
                                         </div>
