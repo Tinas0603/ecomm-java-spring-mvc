@@ -1,5 +1,6 @@
 package vn.tienpham.laptopshop.controller.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -51,16 +52,20 @@ public class ItemController {
 
         Cart cart = this.cartService.fetchByUser(currentUser);
 
-        List<CartDetail> cartDetails = cart.getCartDetails();
-
+        // Kiểm tra nếu cart là null
+        List<CartDetail> cartDetails = new ArrayList<>();
         double totalPrice = 0;
-        for (CartDetail cd : cartDetails) {
-            totalPrice += cd.getPrice() * cd.getQuantity();
+
+        if (cart != null) {
+            cartDetails = cart.getCartDetails();
+            for (CartDetail cd : cartDetails) {
+                totalPrice += cd.getPrice() * cd.getQuantity();
+            }
         }
 
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
-
+        model.addAttribute("cartEmpty", cart == null); // Thêm biến để kiểm tra giỏ hàng trống
         return "client/cart/show";
     }
 }
