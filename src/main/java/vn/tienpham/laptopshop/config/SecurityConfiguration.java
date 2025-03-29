@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import jakarta.servlet.DispatcherType;
 import vn.tienpham.laptopshop.service.CustomUserDetailsService;
@@ -59,6 +60,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public SpringSessionRememberMeServices rememberMeServices() {
+        SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+        // optionally customize
+        rememberMeServices.setAlwaysRemember(false);
+        rememberMeServices.setValiditySeconds(864000);
+        return rememberMeServices;
+    }
+
+    @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
@@ -77,10 +87,13 @@ public class SecurityConfiguration {
                         .failureUrl("/login?error")
                         .successHandler(customSuccessHandler())
                         .permitAll())
-                .rememberMe(rememberMe -> rememberMe
-                        .key("rememberMeKey")
-                        .tokenValiditySeconds(864000) // Token hợp lệ trong 10 ngày (864000 giây)
-                        .userDetailsService(customUserDetailsService))
+                .rememberMe((rememberMe) -> rememberMe
+                        .rememberMeServices(rememberMeServices())
+                        .rememberMeParameter("remember-me"))
+                // .rememberMe(rememberMe -> rememberMe
+                // .key("rememberMeKey")
+                // .tokenValiditySeconds(864000) // Token hợp lệ trong 10 ngày (864000 giây)
+                // .userDetailsService(customUserDetailsService))
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .invalidSessionUrl("/logout?expired")
