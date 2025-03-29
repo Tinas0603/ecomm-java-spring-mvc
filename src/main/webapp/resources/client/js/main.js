@@ -131,9 +131,9 @@
 
 
 
-    // Product Quantity
     $('.quantity button').on('click', function () {
         let change = 0;
+
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
         if (button.hasClass('btn-plus')) {
@@ -149,6 +149,14 @@
         }
         const input = button.parent().parent().find('input');
         input.val(newVal);
+
+        //set form index
+        const index = input.attr("data-cart-detail-index")
+        const el = document.getElementById(`cartDetails${index}.quantity`);
+        $(el).val(newVal);
+
+
+
         //get price
         const price = input.attr("data-cart-detail-price");
         const id = input.attr("data-cart-detail-id");
@@ -158,6 +166,7 @@
             const newPrice = +price * newVal;
             priceElement.text(formatCurrency(newPrice.toFixed(2)) + " đ");
         }
+
         //update total cart price
         const totalPriceElement = $(`p[data-cart-total-price]`);
 
@@ -183,6 +192,7 @@
             });
         }
     });
+
     function formatCurrency(value) {
         // Use the 'vi-VN' locale to format the number according to Vietnamese currency format
         // and 'VND' as the currency type for Vietnamese đồng
@@ -198,4 +208,3 @@
     }
 
 })(jQuery);
-
