@@ -33,7 +33,7 @@ public class ItemController {
         HttpSession session = request.getSession(false);
         long productId = id;
         String email = (String) session.getAttribute("email");
-        this.cartService.addProductToCart(email, productId);
+        this.cartService.addProductToCart(email, productId, session);
         return "redirect:/";
     }
 
