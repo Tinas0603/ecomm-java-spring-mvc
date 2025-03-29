@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public User getUserById(long id) {
-        return this.userRepository.findById(id).orElse(null);
+        return this.userRepository.findById(id);
     }
 
     public void deleteAUser(long id) {
