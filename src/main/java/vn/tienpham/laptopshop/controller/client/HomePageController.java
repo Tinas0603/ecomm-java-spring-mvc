@@ -18,9 +18,12 @@ import vn.tienpham.laptopshop.domain.dto.RegisterDTO;
 import vn.tienpham.laptopshop.service.OrderService;
 import vn.tienpham.laptopshop.service.ProductService;
 import vn.tienpham.laptopshop.service.RoleService;
+import vn.tienpham.laptopshop.service.UploadService;
 import vn.tienpham.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,14 +36,16 @@ public class HomePageController {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
+    private final UploadService uploadService;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            RoleService roleService, OrderService orderService) {
+            RoleService roleService, OrderService orderService, UploadService uploadService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.orderService = orderService;
+        this.uploadService = uploadService;
     }
 
     @GetMapping("/")
@@ -113,4 +118,48 @@ public class HomePageController {
 
         return "redirect:/order-history";
     }
+
+    @GetMapping("/account")
+    public String getAccountPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login"; // Chuyển hướng về login nếu chưa đăng nhập
+        }
+
+        long userId = (long) session.getAttribute("id");
+        User currentUser = this.userService.getUserById(userId);
+        model.addAttribute("user", currentUser);
+        return "client/account/manage"; // Trả về trang quản lý tài khoản
+    }
+
+    @PostMapping("/account/update")
+    public String handleUpdateAccount(
+            @ModelAttribute("user") User user,
+            @RequestParam(value = "avatarFile", required = false) MultipartFile file,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        long userId = (long) session.getAttribute("id");
+        User currentUser = this.userService.getUserById(userId);
+
+        if (currentUser != null) {
+            // Cập nhật thông tin người dùng
+            currentUser.setFullName(user.getFullName());
+            if (file != null && !file.isEmpty()) {
+                String avatar = this.uploadService.handleSaveUploadFile(file, "avatars");
+                currentUser.setAvatar(avatar);
+            }
+            this.userService.handleSaveUser(currentUser);
+
+            // Cập nhật lại session với thông tin mới
+            session.setAttribute("fullName", currentUser.getFullName());
+            session.setAttribute("avatar", currentUser.getAvatar());
+        }
+
+        return "redirect:/account";
+    }
+
 }

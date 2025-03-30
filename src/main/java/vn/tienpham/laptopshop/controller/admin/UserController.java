@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -91,7 +93,8 @@ public class UserController {
     @PostMapping("/admin/user/update")
     public String postUpdateUser(
             @ModelAttribute("updateUser") User user,
-            @RequestParam(value = "updateFile") MultipartFile file) {
+            @RequestParam(value = "updateFile") MultipartFile file,
+            HttpServletRequest request) { // Thêm HttpServletRequest để truy cập session
         User currentUser = this.userService.getUserById(user.getId());
         if (currentUser != null) {
             if (file != null && !file.isEmpty()) {
@@ -103,6 +106,16 @@ public class UserController {
             currentUser.setPhone(user.getPhone());
             currentUser.setRole(this.roleService.getRoleByName(user.getRole().getName()));
             this.userService.handleSaveUser(currentUser);
+
+            // Cập nhật session nếu người dùng được cập nhật là tài khoản đang đăng nhập
+            HttpSession session = request.getSession(false);
+            if (session != null && session.getAttribute("id") != null) {
+                long loggedInUserId = (long) session.getAttribute("id");
+                if (loggedInUserId == currentUser.getId()) { // Kiểm tra xem có phải tài khoản đang đăng nhập không
+                    session.setAttribute("fullName", currentUser.getFullName());
+                    session.setAttribute("avatar", currentUser.getAvatar());
+                }
+            }
         }
         return "redirect:/admin/user";
     }
