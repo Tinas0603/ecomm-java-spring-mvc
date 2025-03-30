@@ -67,7 +67,7 @@
                                             <fmt:formatNumber value="${product.price}" type="number" /> VNĐ
                                         </h5>
                                         <p class="mb-4">${product.shortDesc}.</p>
-                                        <div class="input-group quantity mb-5" style="width: 100px;">
+                                        <!-- <div class="input-group quantity mb-5" style="width: 100px;">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-sm btn-minus rounded-circle bg-light border">
                                                     <i class="fa fa-minus"></i>
@@ -80,10 +80,16 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
-                                        </div>
-                                        <a href="#"
-                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        </div> -->
+                                        <form action="/add-product-to-cart-in-product-detail-page/${product.id}"
+                                            method="post">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <button
+                                                class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
+                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                Add to cart
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="col-lg-12">
                                         <nav>

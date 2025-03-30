@@ -5,120 +5,152 @@
             <html lang="en">
 
             <head>
-                <meta charset="utf-8" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="" />
-                <meta name="author" content="" />
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Register - Laptopshop</title>
-                <link href="/css/styles.css" rel="stylesheet" />
-                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Google Fonts -->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+                    rel="stylesheet">
+                <!-- Font Awesome -->
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+                <!-- Bootstrap -->
+                <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+                <!-- Custom CSS -->
+                <link href="/client/css/style.css" rel="stylesheet">
             </head>
 
-            <body class="bg-primary">
-                <div id="layoutAuthentication">
-                    <div id="layoutAuthentication_content">
-                        <main>
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-7">
-                                        <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                            <div class="card-header">
-                                                <h3 class="text-center font-weight-light my-4">Create Account</h3>
+            <body>
+                <jsp:include page="../layout/header.jsp" />
+                <div class="container py-5 mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <div class="card shadow border-0 rounded-3 mt-5">
+                                <div class="card-header bg-white text-center py-4">
+                                    <h3 class="font-weight-bold text-primary"
+                                        style="font-family: 'Raleway', sans-serif;">Tạo Tài Khoản</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form:form method="post" action="/register" modelAttribute="registerUser">
+                                        <c:set var="errorFirstName">
+                                            <form:errors path="firstName" cssClass="text-danger small" />
+                                        </c:set>
+                                        <c:set var="errorLastName">
+                                            <form:errors path="lastName" cssClass="text-danger small" />
+                                        </c:set>
+                                        <c:set var="errorEmail">
+                                            <form:errors path="email" cssClass="text-danger small" />
+                                        </c:set>
+                                        <c:set var="errorPassword">
+                                            <form:errors path="password" cssClass="text-danger small" />
+                                        </c:set>
+                                        <c:set var="errorConfirmPassword">
+                                            <form:errors path="confirmPassword" cssClass="text-danger small" />
+                                        </c:set>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label style="font-family: 'Open Sans', sans-serif;">Tên</label>
+                                                <form:input
+                                                    class="form-control rounded-pill ${not empty errorFirstName ? 'is-invalid' : ''}"
+                                                    type="text" placeholder="Nhập tên" path="firstName" />
+                                                ${errorFirstName}
                                             </div>
-                                            <div class="card-body">
-                                                <form:form method="post" action="/register"
-                                                    modelAttribute="registerUser">
-                                                    <c:set var="errorFirstName">
-                                                        <form:errors path="firstName" cssClass="invalid-feedback" />
-                                                    </c:set>
-                                                    <c:set var="errorLastName">
-                                                        <form:errors path="lastName" cssClass="invalid-feedback" />
-                                                    </c:set>
-                                                    <c:set var="errorPassword">
-                                                        <form:errors path="password" cssClass="invalid-feedback" />
-                                                    </c:set>
-                                                    <c:set var="errorConfirmPassword">
-                                                        <form:errors path="confirmPassword"
-                                                            cssClass="invalid-feedback" />
-                                                    </c:set>
-                                                    <c:set var="errorEmail">
-                                                        <form:errors path="email" cssClass="invalid-feedback" />
-                                                    </c:set>
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <div class="form-floating mb-3 mb-md-0">
-                                                                <form:input
-                                                                    class="form-control ${not empty errorFirstName ? 'is-invalid' : ''}"
-                                                                    type="text" placeholder="Enter your first name"
-                                                                    path="firstName" />
-                                                                <label for="inputFirstName">First name</label>
-                                                                ${errorFirstName}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-floating">
-                                                                <form:input
-                                                                    class="form-control ${not empty errorLastName ? 'is-invalid' : ''}"
-                                                                    type="text" placeholder="Enter your last name"
-                                                                    path="lastName" />
-                                                                <label for="inputLastName">Last name</label>
-                                                                ${errorLastName}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-floating mb-3">
-                                                        <form:input
-                                                            class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
-                                                            type="email" placeholder="name@example.com" path="email" />
-                                                        <label>Email address</label>
-                                                        ${errorEmail}
-                                                    </div>
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <div class="form-floating mb-3 mb-md-0">
-                                                                <form:input
-                                                                    class="form-control ${not empty errorPassword ? 'is-invalid' : ''}"
-                                                                    type="password" placeholder="Create a password"
-                                                                    path="password" />
-                                                                <label>Password</label>
-                                                                ${errorPassword}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-floating mb-3 mb-md-0">
-                                                                <form:input
-                                                                    class="form-control ${not empty errorConfirmPassword ? 'is-invalid' : ''}"
-                                                                    type="password" placeholder="Confirm password"
-                                                                    path="confirmPassword" />
-                                                                <label>Confirm Password</label>
-                                                                ${errorConfirmPassword}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-4 mb-0">
-                                                        <div class="d-grid">
-                                                            <button class="btn btn-primary btn-block">
-                                                                Create Account
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form:form>
-                                            </div>
-                                            <div class="card-footer text-center py-3">
-                                                <div class="small"><a href="/login">Have an account? Go to login</a>
-                                                </div>
+                                            <div class="col-md-6">
+                                                <label style="font-family: 'Open Sans', sans-serif;">Họ</label>
+                                                <form:input
+                                                    class="form-control rounded-pill ${not empty errorLastName ? 'is-invalid' : ''}"
+                                                    type="text" placeholder="Nhập họ" path="lastName" />
+                                                ${errorLastName}
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="form-group mb-3">
+                                            <label style="font-family: 'Open Sans', sans-serif;">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                <form:input
+                                                    class="form-control rounded-pill ${not empty errorEmail ? 'is-invalid' : ''}"
+                                                    type="email" placeholder="name@example.com" path="email" />
+                                            </div>
+                                            ${errorEmail}
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label style="font-family: 'Open Sans', sans-serif;">Mật khẩu</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                    <form:input
+                                                        class="form-control rounded-pill ${not empty errorPassword ? 'is-invalid' : ''}"
+                                                        type="password" placeholder="Tạo mật khẩu" path="password"
+                                                        id="password" />
+                                                    <span class="input-group-text toggle-password"
+                                                        style="cursor: pointer;">
+                                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                                    </span>
+                                                </div>
+                                                ${errorPassword}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label style="font-family: 'Open Sans', sans-serif;">Xác nhận mật
+                                                    khẩu</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                    <form:input
+                                                        class="form-control rounded-pill ${not empty errorConfirmPassword ? 'is-invalid' : ''}"
+                                                        type="password" placeholder="Xác nhận mật khẩu"
+                                                        path="confirmPassword" id="confirmPassword" />
+                                                    <span class="input-group-text toggle-confirm-password"
+                                                        style="cursor: pointer;">
+                                                        <i class="fas fa-eye" id="toggleConfirmPasswordIcon"></i>
+                                                    </span>
+                                                </div>
+                                                ${errorConfirmPassword}
+                                            </div>
+                                        </div>
+                                        <button class="btn border border-secondary rounded-pill px-4 text-primary w-100"
+                                            type="submit">
+                                            <i class="fas fa-user-plus me-2"></i> Tạo Tài Khoản
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <small style="font-family: 'Open Sans', sans-serif;">
+                                        Đã có tài khoản? <a href="/login" class="text-primary">Đăng nhập</a>
+                                    </small>
                                 </div>
                             </div>
-                        </main>
+                        </div>
                     </div>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                    crossorigin="anonymous"></script>
-                <script src="/js/scripts.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="/client/js/main.js"></script>
+                <script>
+                    // Toggle Password
+                    const togglePassword = document.querySelector('.toggle-password');
+                    const password = document.querySelector('#password');
+                    const togglePasswordIcon = document.querySelector('#togglePasswordIcon');
+
+                    togglePassword.addEventListener('click', function () {
+                        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                        password.setAttribute('type', type);
+                        togglePasswordIcon.classList.toggle('fa-eye');
+                        togglePasswordIcon.classList.toggle('fa-eye-slash');
+                    });
+
+                    // Toggle Confirm Password
+                    const toggleConfirmPassword = document.querySelector('.toggle-confirm-password');
+                    const confirmPassword = document.querySelector('#confirmPassword');
+                    const toggleConfirmPasswordIcon = document.querySelector('#toggleConfirmPasswordIcon');
+
+                    toggleConfirmPassword.addEventListener('click', function () {
+                        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                        confirmPassword.setAttribute('type', type);
+                        toggleConfirmPasswordIcon.classList.toggle('fa-eye');
+                        toggleConfirmPasswordIcon.classList.toggle('fa-eye-slash');
+                    });
+                </script>
+                <jsp:include page="../layout/footer.jsp" />
             </body>
 
             </html>

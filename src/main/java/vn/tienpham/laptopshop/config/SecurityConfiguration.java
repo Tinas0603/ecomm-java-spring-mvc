@@ -77,7 +77,8 @@ public class SecurityConfiguration {
                         .permitAll()
                         // cho phép tất cả các request truy cập vào các URL bắt đầu bằng /, /product,
                         // /login, /client, /css, /js, /images
-                        .requestMatchers("/", "/product/**", "/login", "/client/**", "/css/**", "/js/**", "/images/**")
+                        .requestMatchers("/", "/product/**", "/login", "/register", "/client/**", "/css/**", "/js/**",
+                                "/images/**")
                         .permitAll()
                         // chỉ cho phép role ADMIN truy cập vào các URL bắt đầu bằng /admin
                         .requestMatchers("/admin/**").hasRole("ADMIN")
