@@ -72,23 +72,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:if test="${ empty orders}">
+                                    <c:if test="${empty orders}">
                                         <tr>
-                                            <td colspan="6">
-                                                Không có đơn hàng nào được tạo
-                                            </td>
+                                            <td colspan="6">Không có đơn hàng nào được tạo</td>
                                         </tr>
                                     </c:if>
                                     <c:forEach var="order" items="${orders}">
                                         <tr>
                                             <td colspan="2">Order Id = ${order.id}</td>
                                             <td colspan="1">
-                                                <fmt:formatNumber type="number" value=" ${order.totalPrice}" />
-                                                đ
+                                                <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
                                             </td>
-                                            <td colspan="2"></td>
+                                            <td colspan="1"></td>
+                                            <td colspan="1"></td>
                                             <td colspan="1">
-                                                ${order.status}
+                                                <!-- Nếu trạng thái là PENDING, hiển thị nút dropdown -->
+                                                <c:choose>
+                                                    <c:when test="${order.status == 'PENDING'}">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-warning btn-sm dropdown-toggle"
+                                                                type="button" id="dropdownMenuButton-${order.id}"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                                ${order.status}
+                                                            </button>
+                                                            <ul class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuButton-${order.id}">
+                                                                <li>
+                                                                    <form method="post"
+                                                                        action="/order-history/cancel/${order.id}">
+                                                                        <input type="hidden"
+                                                                            name="${_csrf.parameterName}"
+                                                                            value="${_csrf.token}" />
+                                                                        <button type="submit" class="dropdown-item"
+                                                                            onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                                                                            Hủy đơn hàng
+                                                                        </button>
+                                                                    </form>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <!-- Nếu không phải PENDING, chỉ hiển thị trạng thái dưới dạng text -->
+                                                        ${order.status}
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
                                         </tr>
                                         <c:forEach var="orderDetail" items="${order.orderDetails}">
@@ -121,17 +149,15 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
+                                                    <p class="mb-0 mt-4">
                                                         <fmt:formatNumber type="number"
                                                             value="${orderDetail.price * orderDetail.quantity}" /> đ
                                                     </p>
                                                 </td>
                                                 <td></td>
-
                                             </tr>
                                         </c:forEach>
                                     </c:forEach>
-
                                 </tbody>
                             </table>
                         </div>

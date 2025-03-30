@@ -1,6 +1,7 @@
 package vn.tienpham.laptopshop.controller.client;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.tienpham.laptopshop.domain.Order;
 import vn.tienpham.laptopshop.domain.Product;
@@ -90,4 +92,25 @@ public class HomePageController {
         return "client/cart/order-history";
     }
 
+    @PostMapping("/order-history/cancel/{id}")
+    public String handleCancelOrder(@PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login"; // Chuyển hướng về login nếu chưa đăng nhập
+        }
+
+        long userId = (long) session.getAttribute("id");
+        Optional<Order> orderOptional = this.orderService.fetchOrderById(id);
+
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            // Kiểm tra xem đơn hàng có thuộc về user hiện tại và ở trạng thái PENDING không
+            if (order.getUser().getId() == userId && "PENDING".equals(order.getStatus())) {
+                order.setStatus("CANCEL");
+                this.orderService.updateOrder(order);
+            }
+        }
+
+        return "redirect:/order-history";
+    }
 }
