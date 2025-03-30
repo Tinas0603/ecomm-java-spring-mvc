@@ -78,11 +78,10 @@
                                     <c:forEach var="order" items="${orders}">
                                         <tr>
                                             <td colspan="2">Order Id = ${order.id}</td>
-                                            <td colspan="1"></td> <!-- Cột "Giá cả" để trống -->
+                                            <td colspan="1"></td>
                                             <td colspan="1"></td>
                                             <td colspan="1">
                                                 <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
-                                                <!-- Di chuyển tổng đơn hàng sang cột "Thành tiền" -->
                                             </td>
                                             <td colspan="1">
                                                 <!-- Nếu trạng thái là PENDING, hiển thị nút dropdown -->

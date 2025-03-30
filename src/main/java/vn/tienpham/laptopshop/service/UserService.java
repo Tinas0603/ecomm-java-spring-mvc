@@ -2,6 +2,8 @@ package vn.tienpham.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.tienpham.laptopshop.domain.User;
@@ -21,8 +23,8 @@ public class UserService {
         return saveUser;
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 
     public List<User> getAllUserByEmail(String email) {
@@ -39,7 +41,7 @@ public class UserService {
 
     public User registerDTOtoUser(RegisterDTO registerDTO) {
         User user = new User();
-        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setFullName(registerDTO.getLastName() + " " + registerDTO.getFirstName());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(registerDTO.getPassword());
         return user;

@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="Tiến Phạm - Dự án laptopshop" />
                 <meta name="author" content="Tiến Phạm" />
-                <title>Dashboard - Tiến Phạm</title>
+                <title>Manage Users - Tiến Phạm</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -63,7 +63,7 @@
                                                                 <a href="/admin/user/${user.id}"
                                                                     class="btn btn-success">View</a>
                                                                 <a href="/admin/user/update/${user.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
+                                                                    class="btn btn-warning mx-2">Update</a>
                                                                 <a href="/admin/user/delete/${user.id}"
                                                                     class="btn btn-danger">Delete</a>
                                                             </td>
@@ -71,6 +71,33 @@
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
+                                            <!-- Pagination -->
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination justify-content-center">
+                                                    <!-- Previous Button -->
+                                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                        <a class="page-link" href="/admin/user?page=${currentPage - 1}"
+                                                            aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- Page Numbers -->
+                                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                            <a class="page-link" href="/admin/user?page=${i}">${i}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    <!-- Next Button -->
+                                                    <li
+                                                        class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                        <a class="page-link" href="/admin/user?page=${currentPage + 1}"
+                                                            aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +109,6 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/js/scripts.js"></script>
-
             </body>
 
             </html>

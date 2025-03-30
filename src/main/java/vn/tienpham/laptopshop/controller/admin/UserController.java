@@ -7,6 +7,9 @@ import vn.tienpham.laptopshop.domain.User;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,9 +42,13 @@ public class UserController {
     }
 
     @GetMapping("/admin/user")
-    public String getUserPage(Model model) {
-        List<User> users = this.userService.getAllUsers();
+    public String getUserPage(Model model, @RequestParam(defaultValue = "1") int page) {
+        Pageable pageable = PageRequest.of(page - 1, 5); // 5 người dùng mỗi trang
+        Page<User> userPage = this.userService.getAllUsers(pageable);
+        List<User> users = userPage.getContent();
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userPage.getTotalPages());
         return "admin/user/show";
     }
 

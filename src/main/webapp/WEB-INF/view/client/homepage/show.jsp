@@ -24,20 +24,19 @@
                 <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
                 <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
                 <!-- Customized Bootstrap Stylesheet -->
                 <link href="/client/css/bootstrap.min.css" rel="stylesheet">
 
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
 
+
             </head>
 
             <body>
-
                 <!-- Spinner Start -->
                 <div id="spinner"
-                    class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+                    class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center">
                     <div class="spinner-grow text-primary" role="status"></div>
                 </div>
                 <!-- Spinner End -->
@@ -48,8 +47,7 @@
 
                 <jsp:include page="../layout/feature.jsp" />
 
-
-                <!-- Fruits Shop Start-->
+                <!-- Fruits Shop Start -->
                 <div class="container-fluid fruite py-5">
                     <div class="container py-5">
                         <div class="tab-class text-center">
@@ -85,16 +83,12 @@
                                                             <div
                                                                 class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                                 <h4 style="font-size: 15px;">
-                                                                    <a href="/product/${product.id}">
-                                                                        ${product.name}
-                                                                    </a>
-
+                                                                    <a href="/product/${product.id}">${product.name}</a>
                                                                 </h4>
                                                                 <p style="font-size: 13px;">${product.shortDesc}</p>
-                                                                <div
-                                                                    class="d-flex  flex-lg-wrap justify-content-center">
+                                                                <div class="d-flex flex-lg-wrap justify-content-center">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%;"
-                                                                        class="text-dark  fw-bold mb-3">
+                                                                        class="text-dark fw-bold mb-3">
                                                                         <fmt:formatNumber type="number"
                                                                             value="${product.price}" /> đ
                                                                     </p>
@@ -104,7 +98,8 @@
                                                                             name="${_csrf.parameterName}"
                                                                             value="${_csrf.token}" />
                                                                         <button
-                                                                            class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                            class="mx-auto btn border border-secondary rounded-pill px-3 text-primary">
+                                                                            <i
                                                                                 class="fa fa-shopping-bag me-2 text-primary"></i>
                                                                             Add to cart
                                                                         </button>
@@ -117,22 +112,47 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Pagination Start -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination d-flex justify-content-center mt-5">
+                                            <!-- Previous Button -->
+                                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                <a class="page-link" href="/?page=${currentPage - 1}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+
+                                            <!-- Page Numbers -->
+                                            <c:forEach begin="1" end="${totalPages}" var="i"> <!-- Change begin to 1 -->
+                                                <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                    <a class="page-link" href="/?page=${i}">${i}</a>
+                                                    <!-- Display i directly as page number -->
+                                                </li>
+                                            </c:forEach>
+
+                                            <!-- Next Button -->
+                                            <li class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                                <a class="page-link" href="/?page=${currentPage + 1}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                    <!-- Pagination End -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Fruits Shop End-->
-
-
+                <!-- Fruits Shop End -->
 
                 <jsp:include page="../layout/footer.jsp" />
-
 
                 <!-- Back to Top -->
                 <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                         class="fa fa-arrow-up"></i></a>
-
 
                 <!-- JavaScript Libraries -->
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
