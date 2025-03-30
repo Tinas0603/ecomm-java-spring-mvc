@@ -14,6 +14,7 @@ import vn.tienpham.laptopshop.domain.CartDetail;
 import vn.tienpham.laptopshop.domain.Product;
 import vn.tienpham.laptopshop.domain.User;
 import vn.tienpham.laptopshop.service.CartService;
+import vn.tienpham.laptopshop.service.OrderService;
 import vn.tienpham.laptopshop.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,12 +24,15 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ItemController {
+
+    final OrderService orderService;
     final ProductService productService;
     final CartService cartService;
 
-    public ItemController(ProductService productService, CartService cartService) {
+    public ItemController(ProductService productService, CartService cartService, OrderService orderService) {
         this.productService = productService;
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/product/{id}")
@@ -108,7 +112,9 @@ public class ItemController {
 
     @PostMapping("/confirm-checkout")
     public String getCheckOutPage(@ModelAttribute("cart") Cart cart) {
-        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+        List<CartDetail> cartDetails = new ArrayList<>();
+        if (cart != null)
+            cartDetails = cart.getCartDetails();
         this.cartService.handleUpdateCartBeforeCheckout(cartDetails);
         return "redirect:/checkout";
     }
@@ -119,8 +125,17 @@ public class ItemController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone) {
+        User currentUser = new User();// null
         HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+        this.orderService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        return "redirect:/thank-you";
+    }
 
-        return "redirect:/";
+    @GetMapping("/thank-you")
+    public String getThankYouPage(Model model) {
+
+        return "client/cart/thank-you";
     }
 }
