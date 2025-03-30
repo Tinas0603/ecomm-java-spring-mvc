@@ -47,7 +47,7 @@ public class OrderService {
             order.setStatus("PENDING");
             double sum = 0;
             for (CartDetail cd : cartDetails) {
-                sum += cd.getPrice();
+                sum += cd.getPrice() * cd.getQuantity();
             }
             order.setTotalPrice(sum);
             Order currentOrder = this.orderRepository.save(order);
