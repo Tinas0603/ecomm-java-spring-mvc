@@ -32,4 +32,8 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
+    public long countProducts() {
+        return this.productRepository.count();
+    }
+
 }

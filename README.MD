@@ -18,6 +18,7 @@ Dự án được thiết kế với kiến trúc **MVC (Model-View-Controller)*
   - Xem và chỉnh sửa giỏ hàng (tăng/giảm số lượng, xóa sản phẩm).
   - Đặt hàng và nhận thông báo cảm ơn.
   - Tích hợp ví điện tử VNPay
+  - Xem lịch sử đặt hàng
 - **Người dùng**:
   - Đăng ký tài khoản.
   - Đăng nhập/đăng xuất (tích hợp Spring Security).
@@ -39,20 +40,20 @@ Dự án sử dụng các công nghệ và công cụ sau:
 - **Backend**:
   - **Java**
   - **Spring Framework**: (Spring MVC, Spring Security, Spring Data JPA)
-  - **Hibernate**: ORM để tương tác với database
+- **Spring Session** : duy trì phiên đăng nhập của người dùng
   - **Maven**: Quản lý dependency
 - **Database**:
   - **MySQL**: (lưu trữ dữ liệu người dùng, sản phẩm, giỏ hàng)
 - **Frontend**:
-  - **JSP**: View engine cho giao diện
-  - **Bootstrap**: 5.0.0 (CSS framework)
-  - **FontAwesome**: 5.15.4 (icon)
-  - **jQuery**: 3.6.4 (hỗ trợ JavaScript)
+  - **JSP**: View engine cho giao diện,sử dụng JSTL (Jakarta Standard Tag Library)
+  - **Bootstrap**:(CSS framework)
+  - **FontAwesome**:(icon)
+  - **jQuery**: (hỗ trợ JavaScript)
   - **Owl Carousel**: Hiệu ứng carousel cho sản phẩm
   - **Lightbox**: Hiển thị hình ảnh sản phẩm
 - **Công cụ phát triển**:
-  - **IDE**: IntelliJ IDEA / Eclipse
-  - **Tomcat**: 9.0 (web server)
+  - **IDE**: VSCode
+  - **Tomcat**: (web server)
   - **Git**: Quản lý mã nguồn
 
 ---

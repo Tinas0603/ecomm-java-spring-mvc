@@ -108,4 +108,8 @@ public class OrderService {
             this.orderRepository.save(currentOrder);
         }
     }
+
+    public long countOrders() {
+        return this.orderRepository.count();
+    }
 }
