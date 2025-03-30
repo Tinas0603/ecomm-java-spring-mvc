@@ -304,8 +304,9 @@
 }
 
 .fruite .fruite-item {
-    height: 100%;
     transition: 0.5s;
+    display: flex;
+    flex-direction: column;
 }
 
 .fruite .fruite-item:hover {
@@ -314,11 +315,11 @@
 
 .fruite .fruite-item .fruite-img {
     overflow: hidden;
-    transition: 0.5s;
-    border-radius: 10px 10px 0 0;
+
 }
 
 .fruite .fruite-item .fruite-img img {
+    object-fit: cover;
     transition: 0.5s;
 }
 
