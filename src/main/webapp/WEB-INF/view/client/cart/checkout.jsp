@@ -125,21 +125,28 @@
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <div class="mt-5 row g-4 justify-content-start">
                                         <div class="col-12 col-md-6">
-                                            <div class="p-4 ">
-                                                <h5>Thông Tin Người Nhận
-                                                </h5>
+                                            <div class="p-4">
+                                                <h5>Thông Tin Người Nhận</h5>
                                                 <div class="row">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Tên người nhận</label>
-                                                        <input class="form-control" name="receiverName" required />
+                                                        <input class="form-control" name="receiverName"
+                                                            id="receiverName" required />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Địa chỉ người nhận</label>
-                                                        <input class="form-control" name="receiverAddress" required />
+                                                        <input class="form-control" name="receiverAddress"
+                                                            id="receiverAddress" required />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control" name="receiverPhone" required />
+                                                        <input class="form-control" name="receiverPhone"
+                                                            id="receiverPhone" required />
+                                                    </div>
+                                                    <!-- Nút chọn thông tin hiện tại -->
+                                                    <div class="col-12 form-group mb-3">
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            id="useCurrentInfo">Chọn thông tin hiện tại</button>
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Hình thức thanh toán</label>
@@ -226,6 +233,15 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <!-- Thêm JavaScript để xử lý nút "Chọn thông tin hiện tại" -->
+                    <script>
+                        document.getElementById('useCurrentInfo').addEventListener('click', function () {
+                            // Lấy thông tin từ currentUser trong model
+                            document.getElementById('receiverName').value = "${currentUser.fullName != null ? currentUser.fullName : ''}";
+                            document.getElementById('receiverAddress').value = "${currentUser.address != null ? currentUser.address : ''}";
+                            document.getElementById('receiverPhone').value = "${currentUser.phone != null ? currentUser.phone : ''}";
+                        });
+                    </script>
                 </body>
 
                 </html>

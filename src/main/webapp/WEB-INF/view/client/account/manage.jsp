@@ -87,8 +87,19 @@
                                         <form:input type="hidden" path="id" />
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Họ và tên:</label>
-                                        <form:input type="text" class="form-control" path="fullName" />
+                                        <label class="form-label">Họ và tên: <span class="text-danger">*</span></label>
+                                        <form:input type="text" class="form-control" path="fullName" required="true" />
+                                        <form:errors path="fullName" cssClass="text-danger" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Địa chỉ:</label>
+                                        <form:input type="text" class="form-control" path="address" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Số điện thoại: <span
+                                                class="text-danger">*</span></label>
+                                        <form:input type="text" class="form-control" path="phone" required="true" />
+                                        <form:errors path="phone" cssClass="text-danger" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="avatarFile" class="form-label">Ảnh đại diện:</label>
@@ -99,6 +110,9 @@
                                         <img style="max-height: 250px; display: none;" alt="avatar preview"
                                             id="avatarPreview" class="img-fluid" />
                                     </div>
+                                    <c:if test="${not empty error}">
+                                        <div class="alert alert-danger">${error}</div>
+                                    </c:if>
                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                                 </form:form>
                             </div>

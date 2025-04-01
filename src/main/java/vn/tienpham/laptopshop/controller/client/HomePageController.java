@@ -143,7 +143,8 @@ public class HomePageController {
     public String handleUpdateAccount(
             @ModelAttribute("user") User user,
             @RequestParam(value = "avatarFile", required = false) MultipartFile file,
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            Model model) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("id") == null) {
             return "redirect:/login";
@@ -153,12 +154,31 @@ public class HomePageController {
         User currentUser = this.userService.getUserById(userId);
 
         if (currentUser != null) {
-            // Cập nhật thông tin người dùng
-            currentUser.setFullName(user.getFullName());
+            // Kiểm tra fullName không được để trống
+            if (user.getFullName() == null || user.getFullName().trim().isEmpty()) {
+                model.addAttribute("error", "Tên không được để trống!");
+                model.addAttribute("user", currentUser);
+                return "client/account/manage";
+            }
+            if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
+                model.addAttribute("error", "Số điện thoại không được để trống!");
+                model.addAttribute("phone", currentUser);
+                return "client/account/manage";
+            }
+
+            // Ghi đè fullName (đã kiểm tra không null/rỗng)
+            currentUser.setFullName(user.getFullName().trim());
+
+            // Ghi đè address cho phép null
+            currentUser.setAddress(user.getAddress() != null ? user.getAddress().trim() : null);
+
+            // Xử lý file ảnh nếu có
             if (file != null && !file.isEmpty()) {
                 String avatar = this.uploadService.handleSaveUploadFile(file, "avatars");
                 currentUser.setAvatar(avatar);
             }
+
+            // Lưu thông tin người dùng đã cập nhật
             this.userService.handleSaveUser(currentUser);
 
             // Cập nhật lại session với thông tin mới

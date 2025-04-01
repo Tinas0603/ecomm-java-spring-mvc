@@ -19,6 +19,8 @@ import vn.tienpham.laptopshop.domain.User;
 import vn.tienpham.laptopshop.service.CartService;
 import vn.tienpham.laptopshop.service.OrderService;
 import vn.tienpham.laptopshop.service.ProductService;
+import vn.tienpham.laptopshop.service.UserService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,11 +33,14 @@ public class ItemController {
     final OrderService orderService;
     final ProductService productService;
     final CartService cartService;
+    final UserService userService;
 
-    public ItemController(ProductService productService, CartService cartService, OrderService orderService) {
+    public ItemController(ProductService productService, CartService cartService, OrderService orderService,
+            UserService userService) {
         this.productService = productService;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping("/product/{id}")
@@ -101,12 +106,15 @@ public class ItemController {
 
     @GetMapping("/checkout")
     public String getCheckOutPage(Model model, HttpServletRequest request) {
-        User currentUser = new User();// null
+        User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
         Cart cart = this.cartService.fetchByUser(currentUser);
+
+        // Lấy thông tin user từ UserService
+        User user = this.userService.getUserById(id); // Giả sử bạn đã thêm UserService vào ItemController
 
         // Kiểm tra nếu cart là null
         List<CartDetail> cartDetails = new ArrayList<>();
@@ -121,6 +129,7 @@ public class ItemController {
 
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("currentUser", user); // Thêm thông tin user vào model
 
         return "client/cart/checkout";
     }
