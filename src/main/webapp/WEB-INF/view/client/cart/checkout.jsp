@@ -141,6 +141,23 @@
                                                         <label>Số điện thoại</label>
                                                         <input class="form-control" name="receiverPhone" required />
                                                     </div>
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Hình thức thanh toán</label>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="paymentMethod" value="COD" id="COD" checked>
+                                                            <label class="form-check-label" for="COD">
+                                                                Thanh toán khi nhận hàng
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="paymentMethod" value="BANKING" id="BANKING">
+                                                            <label class="form-check-label" for="BANKING">
+                                                                Thanh toán bằng ví VNPAY
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
@@ -152,8 +169,7 @@
                                             <div class="bg-light rounded">
                                                 <div class="p-4">
                                                     <h1 class="display-6 mb-4">Thông Tin <span class="fw-normal">Thanh
-                                                            Toán</span>
-                                                    </h1>
+                                                            Toán</span></h1>
 
                                                     <div class="d-flex justify-content-between">
                                                         <h5 class="mb-0 me-4">Phí vận chuyển</h5>
@@ -164,7 +180,8 @@
                                                     <div class="mt-3 d-flex justify-content-between">
                                                         <h5 class="mb-0 me-4">Hình thức</h5>
                                                         <div class="">
-                                                            <p class="mb-0">Thanh toán khi nhận hàng (COD)</p>
+                                                            <p class="mb-0" id="payment-method-text">Thanh toán khi nhận
+                                                                hàng (COD)</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -180,7 +197,6 @@
                                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
                                                     Xác nhận thanh toán
                                                 </button>
-
                                             </div>
                                         </div>
                                     </div>

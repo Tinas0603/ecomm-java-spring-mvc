@@ -25,6 +25,7 @@ public class Order {
     private String receiverPhone;
 
     private String status;
+
     // user id
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,6 +33,12 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
+
+    private String paymentRef;
+
+    private String paymentStatus;
+
+    private String paymentMethod;
 
     public long getId() {
         return id;
@@ -95,6 +102,30 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public String getPaymentRef() {
+        return paymentRef;
+    }
+
+    public void setPaymentRef(String paymentRef) {
+        this.paymentRef = paymentRef;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

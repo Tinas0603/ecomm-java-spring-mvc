@@ -208,3 +208,16 @@
     }
 
 })(jQuery);
+
+// Lắng nghe sự thay đổi của các radio button
+document.querySelectorAll('input[name="paymentMethod"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+        var paymentMethodText = document.getElementById('payment-method-text');
+
+        if (document.getElementById('COD').checked) {
+            paymentMethodText.textContent = "Thanh toán khi nhận hàng (COD)";
+        } else if (document.getElementById('BANKING').checked) {
+            paymentMethodText.textContent = "Thanh toán bằng ví VNPAY";
+        }
+    });
+});

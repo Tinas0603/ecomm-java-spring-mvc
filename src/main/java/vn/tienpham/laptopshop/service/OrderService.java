@@ -17,6 +17,7 @@ import vn.tienpham.laptopshop.repository.CartDetailRepository;
 import vn.tienpham.laptopshop.repository.CartRepository;
 import vn.tienpham.laptopshop.repository.OrderDetailRepository;
 import vn.tienpham.laptopshop.repository.OrderRepository;
+import vn.tienpham.laptopshop.util.UUIDUtils;
 
 @Service
 public class OrderService {
@@ -35,7 +36,7 @@ public class OrderService {
     }
 
     public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverPhone,
-            String receiverAddress) {
+            String receiverAddress, String paymentMethod) {
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -47,6 +48,13 @@ public class OrderService {
             order.setReceiverAddress(receiverAddress);
             order.setReceiverPhone(receiverPhone);
             order.setStatus("PENDING");
+            order.setPaymentMethod(paymentMethod);
+            order.setPaymentStatus("PAYMENT_UNPAID");
+
+            // Generate UUID using the utility class
+            final String uuid = paymentMethod.equals("COD") ? "UNKNOWN" : UUIDUtils.generateUUID();
+            order.setPaymentRef(uuid);
+
             double sum = 0;
             for (CartDetail cd : cartDetails) {
                 sum += cd.getPrice() * cd.getQuantity();
@@ -55,7 +63,6 @@ public class OrderService {
             Order currentOrder = this.orderRepository.save(order);
 
             // create orderDetail
-
             if (cartDetails != null) {
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
