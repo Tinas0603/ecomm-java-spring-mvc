@@ -181,13 +181,14 @@ public class HomePageController {
             }
             if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
                 model.addAttribute("error", "Số điện thoại không được để trống!");
-                model.addAttribute("phone", currentUser);
+                model.addAttribute("user", currentUser);
                 return "client/account/manage";
             }
 
             // Ghi đè fullName (đã kiểm tra không null/rỗng)
             currentUser.setFullName(user.getFullName().trim());
-
+            // Ghi đè phone (đã kiểm tra không null/rỗng)
+            currentUser.setPhone(user.getPhone().trim());
             // Ghi đè address cho phép null
             currentUser.setAddress(user.getAddress() != null ? user.getAddress().trim() : null);
 
