@@ -101,10 +101,22 @@ public class HomePageController {
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
+        // List<Order> orders = new ArrayList<>();
+        // List<Order> allOrders = this.orderService.fetchOrderByUser(currentUser);
+        // for (Order order : allOrders) {
+        // if (!"PAYMENT_FAILED".equals(order.getPaymentStatus())) {
+        // orders.add(order);
+        // }
+        // }
+
         // Lấy danh sách đơn hàng và lọc bỏ PAYMENT_FAILED
         List<Order> orders = this.orderService.fetchOrderByUser(currentUser)
                 .stream()
-                .filter(order -> !"PAYMENT_FAILED".equals(order.getPaymentStatus()))
+                .filter(order -> !"PAYMENT_FAILED".equals(order.getPaymentStatus())) // !order.getPaymentStatus().equals("PAYMENT_FAILED")
+                                                                                     // sẽ gây lỗi null pointer
+                                                                                     // exception nếu
+                                                                                     // order.getPaymentStatus() trả về
+                                                                                     // null
                 .collect(Collectors.toList());
 
         model.addAttribute("orders", orders);

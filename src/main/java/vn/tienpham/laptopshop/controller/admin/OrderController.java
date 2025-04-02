@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class OrderController {
 
     @GetMapping("/admin/order")
     public String getDashboard(Model model, @RequestParam(defaultValue = "1") int page) {
-        Pageable pageable = PageRequest.of(page - 1, 5); // 5 đơn hàng mỗi trang
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
         Page<Order> orderPage = this.orderService.fetchAllOrders(pageable);
         List<Order> orders = orderPage.getContent();
         model.addAttribute("orders", orders);
