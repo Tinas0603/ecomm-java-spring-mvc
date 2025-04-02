@@ -17,7 +17,6 @@ import vn.tienpham.laptopshop.repository.CartDetailRepository;
 import vn.tienpham.laptopshop.repository.CartRepository;
 import vn.tienpham.laptopshop.repository.OrderDetailRepository;
 import vn.tienpham.laptopshop.repository.OrderRepository;
-import vn.tienpham.laptopshop.util.UUIDUtils;
 
 @Service
 public class OrderService {
@@ -36,7 +35,7 @@ public class OrderService {
     }
 
     public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverPhone,
-            String receiverAddress, String paymentMethod) {
+            String receiverAddress, String paymentMethod, String paymentRef) {
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -50,10 +49,7 @@ public class OrderService {
             order.setStatus("PENDING");
             order.setPaymentMethod(paymentMethod);
             order.setPaymentStatus("PAYMENT_UNPAID");
-
-            // Generate UUID using the utility class
-            final String uuid = paymentMethod.equals("COD") ? "UNKNOWN" : UUIDUtils.generateUUID();
-            order.setPaymentRef(uuid);
+            order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : paymentRef);
 
             double sum = 0;
             for (CartDetail cd : cartDetails) {
@@ -124,5 +120,14 @@ public class OrderService {
 
     public List<Order> fetchOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
+    }
+
+    public void updatePaymentStatus(String paymentRef, String paymentStatus) {
+        Optional<Order> orderOptional = this.orderRepository.findByPaymentRef(paymentRef);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setPaymentStatus(paymentStatus);
+            this.orderRepository.save(order);
+        }
     }
 }

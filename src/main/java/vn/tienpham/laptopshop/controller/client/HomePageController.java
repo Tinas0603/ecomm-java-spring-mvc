@@ -2,6 +2,7 @@ package vn.tienpham.laptopshop.controller.client;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -99,9 +100,15 @@ public class HomePageController {
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
-        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
+
+        // Lấy danh sách đơn hàng và lọc bỏ PAYMENT_FAILED
+        List<Order> orders = this.orderService.fetchOrderByUser(currentUser)
+                .stream()
+                .filter(order -> !"PAYMENT_FAILED".equals(order.getPaymentStatus()))
+                .collect(Collectors.toList());
+
         model.addAttribute("orders", orders);
-        return "client/cart/order-history";
+        return "client/cart/order-history"; // Đường dẫn đến file JSP
     }
 
     @PostMapping("/order-history/cancel/{id}")

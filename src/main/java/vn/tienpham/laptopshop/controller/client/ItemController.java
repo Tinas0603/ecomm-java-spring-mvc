@@ -1,7 +1,9 @@
 package vn.tienpham.laptopshop.controller.client;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,8 @@ import vn.tienpham.laptopshop.service.CartService;
 import vn.tienpham.laptopshop.service.OrderService;
 import vn.tienpham.laptopshop.service.ProductService;
 import vn.tienpham.laptopshop.service.UserService;
+import vn.tienpham.laptopshop.service.VNPayService;
+import vn.tienpham.laptopshop.util.UUIDUtils;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,13 +38,15 @@ public class ItemController {
     final ProductService productService;
     final CartService cartService;
     final UserService userService;
+    final VNPayService vNPayService;
 
     public ItemController(ProductService productService, CartService cartService, OrderService orderService,
-            UserService userService) {
+            UserService userService, VNPayService vNPayService) {
         this.productService = productService;
         this.cartService = cartService;
         this.orderService = orderService;
         this.userService = userService;
+        this.vNPayService = vNPayService;
     }
 
     @GetMapping("/product/{id}")
@@ -149,22 +155,64 @@ public class ItemController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam("paymentMethod") String paymentMethod) {
+            @RequestParam("paymentMethod") String paymentMethod) throws UnsupportedEncodingException {
         User currentUser = new User();// null
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
-        this.orderService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
-                paymentMethod);
-        if (!paymentMethod.equals("COD")) {
 
+        // Lấy giỏ hàng của người dùng
+        Cart cart = this.cartService.fetchByUser(currentUser);
+
+        // Tính tổng số tiền
+        double totalPrice = 0;
+        if (cart != null) {
+            List<CartDetail> cartDetails = cart.getCartDetails();
+            for (CartDetail cd : cartDetails) {
+                totalPrice += cd.getPrice() * cd.getQuantity();
+            }
+        }
+        // Tạo paymentRef
+        final String paymentRef = UUIDUtils.generateUUID();
+
+        // Gọi service để xử lý đặt hàng với paymentRef
+        this.orderService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
+                paymentMethod, paymentRef);
+
+        // Nếu không phải COD, tạo URL VNPay và chuyển hướng
+        if (!paymentMethod.equals("COD")) {
+            String ip = this.vNPayService.getIpAddress(request);
+            String vnpayUrl = this.vNPayService.generateVNPayURL(totalPrice, paymentRef, ip);
+            return "redirect:" + vnpayUrl;
         }
         return "redirect:/thank-you";
     }
 
     @GetMapping("/thank-you")
-    public String getThankYouPage(Model model) {
+    public String getThankYouPage(
+            Model model,
+            @RequestParam("vnp_ResponseCode") Optional<String> vnp_ResponseCode,
+            @RequestParam("vnp_TxnRef") Optional<String> vnp_TxnRef) {
+        String message = "Cảm ơn bạn đã đặt hàng!"; // Thông điệp mặc định
+        boolean isPaymentSuccess = false;
 
+        if (vnp_ResponseCode.isPresent() && vnp_TxnRef.isPresent()) {
+            // Thanh toán VNPay, cập nhật trạng thái đơn hàng
+            String paymentStatus = vnp_ResponseCode.get().equals("00") ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED";
+            this.orderService.updatePaymentStatus(vnp_TxnRef.get(), paymentStatus);
+
+            // Kiểm tra trạng thái thanh toán
+            if ("PAYMENT_SUCCESS".equals(paymentStatus)) {
+                message = "Cảm ơn bạn đã đặt hàng!";
+                isPaymentSuccess = true;
+            } else {
+                message = "Thanh toán thất bại, vui lòng thử lại.";
+                isPaymentSuccess = false;
+            }
+        }
+
+        model.addAttribute("message", message);
+        model.addAttribute("isPaymentSuccess", isPaymentSuccess);
         return "client/cart/thank-you";
     }
 

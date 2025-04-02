@@ -18,11 +18,11 @@ Dự án được thiết kế với kiến trúc **MVC (Model-View-Controller)*
   - Xem và chỉnh sửa giỏ hàng (tăng/giảm số lượng, xóa sản phẩm).
   - Đặt hàng và nhận thông báo cảm ơn.
   - Tích hợp ví điện tử VNPay
-  - Xem lịch sử đặt hàng
+  - Xem lịch sử đặt hàng, huỷ đơn hàng nếu vẫn còn trong trạng thái "PENDING"
 - **Người dùng**:
-  - Đăng ký tài khoản.
-  - Đăng nhập/đăng xuất (tích hợp Spring Security).
+  - Đăng ký tài khoản, Đăng nhập, đăng xuất (tích hợp Spring Security).
   - Hỗ trợ tính năng "Remember Me" để tự động đăng nhập.
+  - Trang hồ sơ cá nhân để xem và sửa lại thông tin theo ý muốn.
 - **Bảo mật**:
   - Xác thực và phân quyền với Spring Security.
   - Bảo vệ form đăng nhập với CSRF token.

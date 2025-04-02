@@ -46,12 +46,26 @@
             <div class="container-fluid py-5">
                 <div class="container py-5 text-center">
                     <div class="mb-5">
-                        <h1 class="display-4 text-primary">Cảm ơn bạn đã đặt hàng!</h1>
-                        <p class="lead">${message}</p>
-                        <p>Chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng. Bạn có thể kiểm tra email để xem
-                            chi tiết đơn hàng.</p>
+                        <c:choose>
+                            <c:when test="${isPaymentSuccess}">
+                                <h1 class="display-4 text-primary">Cảm ơn bạn đã đặt hàng!</h1>
+                                <p class="lead">${message}</p>
+                                <p>Chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng. Bạn có thể kiểm tra email
+                                    để xem chi tiết đơn hàng.</p>
+                            </c:when>
+                            <c:otherwise>
+                                <h1 class="display-4 text-danger">Thanh toán thất bại</h1>
+                                <p class="lead">${message}</p>
+                                <p>Vui lòng thử lại hoặc liên hệ với chúng tôi để được hỗ trợ.</p>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                    <a href="/" class="btn btn-primary rounded-pill px-4 py-3 text-uppercase">Tiếp tục mua sắm</a>
+                    <a href="/" class="btn btn-primary rounded-pill px-4 py-3 text-uppercase">
+                        <c:choose>
+                            <c:when test="${isPaymentSuccess}">Tiếp tục mua sắm</c:when>
+                            <c:otherwise>Quay lại trang chủ</c:otherwise>
+                        </c:choose>
+                    </a>
                 </div>
             </div>
             <!-- Thank You Page End -->

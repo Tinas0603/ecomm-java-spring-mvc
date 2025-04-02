@@ -146,7 +146,7 @@
                                                     <!-- Nút chọn thông tin hiện tại -->
                                                     <div class="col-12 form-group mb-3">
                                                         <button type="button" class="btn btn-outline-primary"
-                                                            id="useCurrentInfo">Chọn thông tin hiện tại</button>
+                                                            id="useCurrentInfo">Lấy thông tin hiện tại</button>
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Hình thức thanh toán</label>
@@ -164,6 +164,8 @@
                                                                 Thanh toán bằng ví VNPAY
                                                             </label>
                                                         </div>
+                                                        <input style="display: none;" value="${totalPrice}" />
+
                                                     </div>
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>

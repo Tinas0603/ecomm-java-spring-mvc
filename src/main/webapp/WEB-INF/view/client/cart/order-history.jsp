@@ -66,13 +66,15 @@
                                         <th scope="col">Giá cả</th>
                                         <th scope="col">Số lượng</th>
                                         <th scope="col">Thành tiền</th>
+                                        <th scope="col">Phương thức</th> <!-- Thêm cột mới -->
                                         <th scope="col">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:if test="${empty orders}">
                                         <tr>
-                                            <td colspan="6">Không có đơn hàng nào được tạo</td>
+                                            <td colspan="7">Không có đơn hàng nào được tạo</td>
+                                            <!-- Cập nhật colspan -->
                                         </tr>
                                     </c:if>
                                     <c:forEach var="order" items="${orders}">
@@ -83,8 +85,9 @@
                                             <td colspan="1">
                                                 <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
                                             </td>
+                                            <td colspan="1">${order.paymentMethod}</td>
+                                            <!-- Hiển thị phương thức thanh toán -->
                                             <td colspan="1">
-                                                <!-- Nếu trạng thái là PENDING, hiển thị nút dropdown -->
                                                 <c:choose>
                                                     <c:when test="${order.status == 'PENDING'}">
                                                         <div class="dropdown">
@@ -111,7 +114,6 @@
                                                         </div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <!-- Nếu không phải PENDING, chỉ hiển thị trạng thái dưới dạng text -->
                                                         ${order.status}
                                                     </c:otherwise>
                                                 </c:choose>
@@ -152,7 +154,8 @@
                                                             value="${orderDetail.price * orderDetail.quantity}" /> đ
                                                     </p>
                                                 </td>
-                                                <td></td>
+                                                <td></td> <!-- Cột trống cho phương thức thanh toán -->
+                                                <td></td> <!-- Cột trống cho trạng thái -->
                                             </tr>
                                         </c:forEach>
                                     </c:forEach>
