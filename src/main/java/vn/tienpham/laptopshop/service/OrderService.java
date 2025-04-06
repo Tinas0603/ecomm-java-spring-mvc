@@ -130,4 +130,8 @@ public class OrderService {
             this.orderRepository.save(order);
         }
     }
+
+    public Optional<Order> fetchOrderByPaymentRef(String paymentRef) {
+        return orderRepository.findByPaymentRef(paymentRef); // Giả sử bạn có repository hỗ trợ truy vấn này
+    }
 }

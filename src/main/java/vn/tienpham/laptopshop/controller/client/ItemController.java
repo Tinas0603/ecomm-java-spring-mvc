@@ -194,14 +194,14 @@ public class ItemController {
             @RequestParam("vnp_ResponseCode") Optional<String> vnp_ResponseCode,
             @RequestParam("vnp_TxnRef") Optional<String> vnp_TxnRef) {
         String message = "Cảm ơn bạn đã đặt hàng!"; // Thông điệp mặc định
-        boolean isPaymentSuccess = false;
+        boolean isPaymentSuccess = true; // Mặc định là thành công
 
         if (vnp_ResponseCode.isPresent() && vnp_TxnRef.isPresent()) {
             // Thanh toán VNPay, cập nhật trạng thái đơn hàng
             String paymentStatus = vnp_ResponseCode.get().equals("00") ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED";
             this.orderService.updatePaymentStatus(vnp_TxnRef.get(), paymentStatus);
 
-            // Kiểm tra trạng thái thanh toán
+            // Kiểm tra trạng thái thanh toán VNPay
             if ("PAYMENT_SUCCESS".equals(paymentStatus)) {
                 message = "Cảm ơn bạn đã đặt hàng!";
                 isPaymentSuccess = true;
@@ -209,6 +209,10 @@ public class ItemController {
                 message = "Thanh toán thất bại, vui lòng thử lại.";
                 isPaymentSuccess = false;
             }
+        } else {
+            // Trường hợp COD: luôn hiển thị thông báo thành công
+            message = "Cảm ơn bạn đã đặt hàng!\n\nChúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng. Bạn có thể kiểm tra email để xem chi tiết đơn hàng.";
+            isPaymentSuccess = true;
         }
 
         model.addAttribute("message", message);
